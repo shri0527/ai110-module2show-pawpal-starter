@@ -61,7 +61,7 @@ class Task:
 
     def copy(self, **overrides) -> "Task":
         """Return a new Task with the same fields, with any overrides applied."""
-        return Task(
+        base = dict(
             title=self.title,
             duration_minutes=self.duration_minutes,
             priority=self.priority,
@@ -71,8 +71,9 @@ class Task:
             recurrence=self.recurrence,
             repeat_days=list(self.repeat_days),
             due_date=self.due_date,
-            **overrides,
         )
+        base.update(overrides)
+        return Task(**base)
 
 
 @dataclass

@@ -48,6 +48,32 @@ Several enhancements were added to make the scheduler more intelligent and maint
 
 ---
 
+## Testing PawPal+
+
+### Running the tests
+
+```bash
+python -m pytest tests/test_pawpal.py -v
+```
+
+### What the tests cover
+
+| Test | What it verifies |
+|---|---|
+| `test_task_completion` | Calling `mark_done()` sets `is_done` to `True` |
+| `test_task_addition` | Adding a task to a `Pet` increases its task count correctly; recurring tasks route to `recurring_tasks`, one-off tasks to `tasks` |
+| `test_sort_by_time_chronological` | `sort_by_time()` returns tasks in ascending `HH:MM` order, with unscheduled tasks placed at the end |
+| `test_daily_recurrence_spawns_next_day` | Marking a daily recurring task done automatically creates a new occurrence with a `due_date` of the following day |
+| `test_conflict_detection_same_time` | Two tasks scheduled at the same time are detected and recorded as a conflict in the schedule |
+
+### Confidence Level
+
+★★★★☆ (4 / 5)
+
+The core scheduling behaviors — priority sorting, time-budget greedy fit, recurring task injection, conflict detection, and task completion — are all implemented and tested. The bug in `Task.copy()` (duplicate keyword argument when passing overrides) was caught and fixed through testing. Confidence is held at 4 rather than 5 because there is currently no interactive UI for marking tasks done, auto-time-assignment does not exist (times must be set manually), and edge cases such as three-way time conflicts and weekly tasks with empty `repeat_days` are identified but not yet covered by tests.
+
+---
+
 ### Suggested workflow
 
 1. Read the scenario carefully and identify requirements and edge cases.
