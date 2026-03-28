@@ -6,12 +6,15 @@
 
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
+I included 4 classes. They are Owner, Pet, Task, Schedule. For Owner the attributes were tracking their name, preferenes, and availibility. I also included a method to add pets and set the schedule. For Pet I added basic details like their name, age, and notes about the pet. Then I added a methods to manage tasks related to them. Then for Task i included a category, priority, status of the task, and being able to edit the task itself. Lastly for Schedule I included a list of the task, date to be done by, and duration.
 
 **b. Design changes**
 
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
+Each Task now gets a unique id generated automatically using uuid4. This fixes a bug where remove_task() would delete every task sharing the same title. Now removal, lookups, and schedule explanations all rely on this ID, making them precise and reliable.
 
+priority and species are now typed as Literal["low", "medium", "high"] and Literal["dog", "cat", "other"] respectively. Previously they were plain strings, meaning invalid values like priority="urgent" would silently pass through and potentially break the scheduler logic later. This catches bad input early.
 ---
 
 ## 2. Scheduling Logic and Tradeoffs
