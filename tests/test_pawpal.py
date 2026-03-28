@@ -63,7 +63,8 @@ def test_daily_recurrence_spawns_next_day():
     assert found, "mark_task_done should return True when the task is found"
     assert daily_task.is_done, "the original task should be marked done"
 
-    next_occurrences = [t for t in pet.recurring_tasks if not t.is_done]
+    next_occurrences = [t for t in pet.recurring_tasks i
+    f not t.is_done]
     assert len(next_occurrences) == 1, "exactly one new occurrence should be created"
     assert next_occurrences[0].due_date == date(2026, 3, 29), "next occurrence should be the following day"
 

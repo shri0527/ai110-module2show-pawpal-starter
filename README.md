@@ -22,6 +22,47 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Features
+
+### Smart Daily Scheduling
+Automatically builds a daily care plan from all your pets' pending tasks.
+Tasks are selected using a greedy algorithm that fits as many tasks as
+possible within the owner's available time budget. Tasks that would exceed
+the remaining time are skipped, not dropped permanently.
+
+### Priority-Based Task Sorting
+Before scheduling, tasks are ranked by a three-level sort:
+1. Owner-preferred categories come first (e.g. always prioritize "meds")
+2. Then by priority level — high → medium → low
+3. Then by shortest duration, to maximize how many tasks fit in the day
+
+### Chronological Schedule Display
+The final schedule is always presented in time order (HH:MM).
+Tasks without a scheduled time are placed at the end as "flexible".
+
+### Conflict Detection
+After building the schedule, the system scans all timed tasks and flags
+any pair where one task's end time overlaps the next task's start time.
+Conflicts are shown in the UI with the exact time window of each task
+and two fix options: auto-fix (shifts the second task to start right
+after the first ends) or manual (owner sets their own new times).
+
+### Recurring Tasks (Daily & Weekly)
+Tasks can be set to repeat daily or on specific weekdays (e.g. Mon/Wed/Fri).
+Each day, copies of applicable recurring tasks are injected into the schedule
+automatically. When a recurring task is marked done, the next occurrence is
+created with the correct due date — daily tasks roll to tomorrow, weekly tasks
+find the nearest matching weekday.
+
+### Task Filtering & Querying
+Tasks across all pets can be filtered by:
+- Pet name
+- Completion status (done / pending)
+- Priority level (high / medium / low)
+
+
+---
+
 ## Getting started
 
 ### Setup
@@ -74,6 +115,9 @@ The core scheduling behaviors — priority sorting, time-budget greedy fit, recu
 
 ---
 
+### 📸 Demo
+![alt text](image.png)
+
 ### Suggested workflow
 
 1. Read the scenario carefully and identify requirements and edge cases.
@@ -82,4 +126,4 @@ The core scheduling behaviors — priority sorting, time-budget greedy fit, recu
 4. Implement scheduling logic in small increments.
 5. Add tests to verify key behaviors.
 6. Connect your logic to the Streamlit UI in `app.py`.
-7. Refine UML so it matches what you actually built.
+7. Refine UML so it matches what you actually built.ma
