@@ -32,6 +32,22 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+## Smarter Scheduling
+
+Several enhancements were added to make the scheduler more intelligent and maintainable:
+
+**Recurring task auto-renewal** — When a `daily` or `weekly` task is marked complete, the scheduler automatically creates the next occurrence. Daily tasks get a new due date of today + 1 day (using `timedelta(days=1)`). Weekly tasks scan forward to find the nearest matching repeat day (e.g. Mon/Thu/Sat).
+
+**Conflict detection** — `detect_conflicts()` scans all timed tasks chronologically and flags any pair where one task's end time overlaps the next task's start time. Warnings are printed without crashing the program.
+
+**Single-pass sorting** — Task prioritization was simplified from two sequential sorts into one, using a combined key: owner preference category first, then priority level, then duration. A `prefs` set makes the preference check O(1).
+
+**`Task.copy()`** — A `copy(**overrides)` method was added to `Task` so recurring task templates can be cloned cleanly with targeted field overrides, eliminating repeated field-by-field construction in two separate places.
+
+**Cleaner removal** — `Pet.remove_task()` now returns a boolean, and `Scheduler.remove_task()` uses `any()` to short-circuit on the first successful removal instead of comparing list lengths before and after.
+
+---
+
 ### Suggested workflow
 
 1. Read the scenario carefully and identify requirements and edge cases.

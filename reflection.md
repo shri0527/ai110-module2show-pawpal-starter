@@ -23,12 +23,13 @@ priority and species are now typed as Literal["low", "medium", "high"] and Liter
 
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
 - How did you decide which constraints mattered most?
+I considered owner preferences, task priority, and time. The preference constraint was ranked first because a pet's daily feeding or medication is more time-sensitive than a grooming task, even if both are marked high priority. Time is the hard cutoff — it's a physical limit, not a preference — so it acts as the final gate rather than a sorting criterion.
 
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
-
+The scheduler uses a greedy first-fit strategy: it picks tasks in sorted order and adds each one if it fits, skipping any that don't. The tradeoff is that greedy first-fit can leave time on the table. For example, if a 30-minute walk is next in priority but only 25 minutes remain, it gets skipped — even if a 25-minute grooming task lower in priority would have fit perfectly. This tradeoff is reasonable here because pet care tasks aren't interchangeable — you shouldn't swap a high-priority feeding for a lower-priority bath just to maximize minutes used. Respecting priority order matters more than filling every available minute, and greedy first-fit does that simply and predictably.
 ---
 
 ## 3. AI Collaboration
